@@ -1,42 +1,43 @@
 ﻿function addDnDHandlers() {
 
-    var coffeeimages = document.getElementsByClassName("productarticlewide");
-    var shoppingCartDropzone = document.getElementById("shoppingcart");
+  var coffeeimages = document.getElementsByClassName("productarticlewide");
+  var shoppingCartDropzone = document.getElementById("shoppingcart");
 
-    var shoppingcart = document.querySelectorAll("#shoppingcart ul")[0];
+  //initialize the cart
+  var shoppingcart = document.querySelectorAll("#shoppingcart ul")[0];
 
-    for (var i = 0; i < coffeeimages.length; i++) {
-        coffeeimages[i].addEventListener("dragstart", function (ev) {
-            ev.dataTransfer.effectAllowed = 'copy';
-            ev.dataTransfer.setData("Text", this.getAttribute("id"));
-        }, false);
-    }
-
-    shoppingCartDropzone.addEventListener("dragover", function (ev) {
-        if (ev.preventDefault)
-            ev.preventDefault();
-        ev.dataTransfer.dropEffect = "copy";
-        return false;
+  for (var i = 0; i < coffeeimages.length; i++) {
+    coffeeimages[i].addEventListener("dragstart", function (ev) {
+      ev.dataTransfer.effectAllowed = 'copy';
+      ev.dataTransfer.setData("Text", this.getAttribute("id"));
     }, false);
+  }
 
-    shoppingCartDropzone.addEventListener("drop", function (ev) {
-        if (ev.stopPropagation)
-            ev.stopPropagation();
+  shoppingCartDropzone.addEventListener("dragover", function (ev) {
+    if (ev.preventDefault)
+      ev.preventDefault();
+    ev.dataTransfer.dropEffect = "copy";
+    return false;
+  }, false);
 
-        var coffeeId = ev.dataTransfer.getData("Text");
-        var element = document.getElementById(coffeeId);
+  shoppingCartDropzone.addEventListener("drop", function (ev) {
+    if (ev.stopPropagation)
+      ev.stopPropagation();
 
-        addCoffeeToShoppingCart(element, coffeeId);
-        ev.stopPropagation();
+    var coffeeId = ev.dataTransfer.getData("Text");
+    var element = document.getElementById(coffeeId);
 
-        return false; 
-    }, false);
+    addCoffeeToShoppingCart(element, coffeeId);
+    ev.stopPropagation();
 
-    function addCoffeeToShoppingCart(item, id) {
-        var html = id + " " + item.getAttribute("data-price");
+    return false;
+  }, false);
 
-        var liElement = document.createElement('li');
-        liElement.innerHTML = html;
-        shoppingcart.appendChild(liElement);
-    }
+  function addCoffeeToShoppingCart(item, id) {
+    var html = id + " " + item.getAttribute("data-price");
+
+    var liElement = document.createElement('li');
+    liElement.innerHTML = html;
+    shoppingcart.appendChild(liElement);
+  }
 }
