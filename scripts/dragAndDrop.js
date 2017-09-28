@@ -2,9 +2,32 @@
 
   var coffeeimages = document.getElementsByClassName("productarticlewide");
   var shoppingCartDropzone = document.getElementById("shoppingcart");
-
-  //initialize the cart
   var shoppingcart = document.querySelectorAll("#shoppingcart ul")[0];
+
+  var Cart = (function () {
+    this.coffees = new Array();
+  });
+//creating a coffee object constructor
+  var Coffee = (function (id, price) {
+    this.coffeeId = id;
+    this.price = price;
+  });
+//current cart contain the  shoping cart that is comming from local storage
+  var currentCart = null;
+//checking the local storage for this page
+  currentCart = JSON.parse(localStorage.getItem('cart'));
+  if (!currentCart) {
+    createEmptyCart();
+  }
+//synchronize the shopping cart
+  UpdateShoppingCartUI();
+  currentCart.addCoffee = function (coffee) {
+    currentCart.coffees.push(coffee);
+
+    // insert the new cart into the storage as string
+    localStorage.setItem('cart', JSON.stringify(currentCart));
+
+  }
 
   for (var i = 0; i < coffeeimages.length; i++) {
     coffeeimages[i].addEventListener("dragstart", function (ev) {
@@ -34,10 +57,27 @@
   }, false);
 
   function addCoffeeToShoppingCart(item, id) {
-    var html = id + " " + item.getAttribute("data-price");
+    var price = item.getAttribute("data-price");
 
-    var liElement = document.createElement('li');
-    liElement.innerHTML = html;
-    shoppingcart.appendChild(liElement);
+    var coffee = new Coffee(id, price);
+    currentCart.addCoffee(coffee);
+
+    UpdateShoppingCartUI();
   }
+
+  function createEmptyCart() {
+    localStorage.clear();
+    localStorage.setItem("cart", JSON.stringify(new Cart()));
+    currentCart = JSON.parse(localStorage.getItem("cart"));
+  }
+
+  function UpdateShoppingCartUI() {
+
+    shoppingcart.innerHTML = "";
+    for (var i = 0; i < currentCart.coffees.length; i++) {
+      var liElement = document.createElement('li');
+      liElement.innerHTML = currentCart.coffees[i].coffeeId + " " + currentCart.coffees[i].price;
+      shoppingcart.appendChild(liElement);
+    }
+  };
 }
