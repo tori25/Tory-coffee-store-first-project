@@ -1,7 +1,9 @@
 ﻿function createDrivingDirectionsMap() {
+    //check if the current borouser has support for geolocation
     if (navigator.geolocation) {
 
         navigator.geolocation.getCurrentPosition(OnSuccess, OnError, {
+           //position options
             enableHighAccuracy: true,
             maximumAge: 1000,
             timeout: 500
@@ -21,6 +23,7 @@ function OnSuccess(position) {
 
 function OnError() {
     var mapDiv = document.getElementById("map");
+    //check which was the current error code
     switch (error.code) {
         case error.PERMISSION_DENIED:
             mapDiv.innerHTML = "User denied the request for Geolocation."
@@ -37,12 +40,12 @@ function OnError() {
     }
 };
 
-
+//implement the showmap
 function showMap(lat, lang) {
 
     var directionsService = new google.maps.DirectionsService();
     var directionsRenderer = new google.maps.DirectionsRenderer();
-
+//specify what is my route
     var route = {
         origin: new google.maps.LatLng(lat, lang),
         destination: "Grote Markt, Brussel",
@@ -54,7 +57,7 @@ function showMap(lat, lang) {
         center: new google.maps.LatLng(50.8504500, 4.3487800),
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
-
+//create the actual map
     var map = new google.maps.Map(document.getElementById("map"), mapOptions);
     directionsRenderer.setMap(map);
     directionsRenderer.setPanel(document.getElementById("driving-directions"));
