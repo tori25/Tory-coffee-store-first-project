@@ -1,5 +1,5 @@
 ﻿function initializeVideoPlayerControls() {
-
+//attach functionality to video buttons
     var video = document.getElementById("videoplayer");
 
 
@@ -7,16 +7,19 @@
 
         button = evt.target;
         if (video.paused) {
+            //start play the content
             video.play();
+            //change the context of the button to pause
             button.textContent = "Pause";
         } else {
             video.pause();
             button.textContent = "Play";
         }
     }
-
+//make possible to seek in the video - jumping forward or backward a couple of seconds
     function seek(numberOfSeconds) {
         try {
+            //verify if the video is at the start
             if (numberOfSeconds == 0) {
                 video.currentTime = numberOfSeconds;
             }
@@ -47,6 +50,7 @@
         video.playbackRate += .25;
     }, false);
     document.getElementById("muteButton").addEventListener("click", function (s) {
+       //check if the video is currently mutted
         if (video.muted) {
             video.muted = false;
         } else {
