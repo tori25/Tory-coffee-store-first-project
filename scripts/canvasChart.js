@@ -13,6 +13,7 @@ coffeeSales[10] = "Nov, 109";
 coffeeSales[11] = "Dec, 235";
 
 function drawChart() {
+    //get hold to the canvax
     var canvas = document.getElementById('barChart');
 
     if (canvas && canvas.getContext) {
@@ -25,7 +26,7 @@ function createBarChart(context, data, startX, barWidth, chartHeight, markDataIn
 
     context.lineWidth = "1.2";
     var startY = 780;
-
+//call createAxis function twice
     createAxis(context, startX, startY, startX, 30);//vertical axis
     createAxis(context, startX, startY, 650, startY);//horizontal axis
 
