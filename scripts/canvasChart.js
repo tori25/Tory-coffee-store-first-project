@@ -43,6 +43,8 @@ function createBarChart(context, data, startX, barWidth, chartHeight, markDataIn
         createBar(context, 20 + startX + (i * barWidth) + i + (i * 30), (chartHeight - itemValue), barWidth, itemValue, true);
 
         context.textAlign = "left";
+        context.font="20px Arial";
+
         context.fillStyle = "black";
         context.fillText(itemName, 20 + startX + (i * barWidth) + i + (i * 30), chartHeight + 15, 200);
     }
